@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace GoodsAPI.DAL.Models
+namespace GoodsAPI.Shared.DTO
 {
     // Represents entity of user
-    public class User
+    public class UserDTO
     {
         public int Id { get; set; }
         public string Login { get; set; }

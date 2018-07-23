@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GoodsAPI.DAL.Models
+namespace GoodsAPI.Shared.DTO
 {
-    public class Importance
+    public class ImportanceDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using GoodsAPI.DAL.Models;
+using System;
 
-namespace GoodsAPI.DAL.Models
+namespace GoodsAPI.Shared.DTO
 {
     // Represents entity of user's goods
-    public class Good
+    public class GoodDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
