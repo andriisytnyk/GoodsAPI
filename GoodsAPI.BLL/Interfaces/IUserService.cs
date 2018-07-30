@@ -1,5 +1,4 @@
-﻿using GoodsAPI.DAL.Models;
-using GoodsAPI.Shared.DTO;
+﻿using GoodsAPI.Shared.DTO;
 using System.Collections.Generic;
 
 namespace GoodsAPI.BLL.Interfaces
@@ -22,24 +21,24 @@ namespace GoodsAPI.BLL.Interfaces
 
         void UpdatePassword(int id, string password);
 
-        void UpdateBill(int id, Bill userBill);
+        void UpdateBill(int id, BillDTO userBill);
 
-        void UpdateAllGoods(int id, List<Good> allGoods);
+        void UpdateAllGoods(int id, List<GoodDTO> allGoods);
 
-        void UpdateAllGoodsByAddingGood(int id, Good good);
+        void UpdateAllGoodsByAddingGood(int id, GoodDTO good);
 
-        void UpdateAllGoodsByAddingGoods(int id, List<Good> goods);
+        void UpdateAllGoodsByAddingGoods(int id, List<GoodDTO> goods);
 
-        void UpdateUniqueGoods(int id, List<Good> uniqueGoods);
+        void UpdateUniqueGoods(int id, List<GoodDTO> uniqueGoods);
 
-        void UpdateUniqueGoodsByAddingGood(int id, Good good);
+        void UpdateUniqueGoodsByAddingGood(int id, GoodDTO good);
 
-        void UpdateUniqueGoodsByAddingGoods(int id, List<Good> goods);
+        void UpdateUniqueGoodsByAddingGoods(int id, List<GoodDTO> goods);
 
-        void UpdateUserGoodTypes(int id, List<GoodType> userGoodTypes);
+        void UpdateUserGoodTypes(int id, List<GoodTypeDTO> userGoodTypes);
 
-        void UpdateUserGoodTypesByAddingType(int id, GoodType goodType);
+        void UpdateUserGoodTypesByAddingType(int id, GoodTypeDTO goodType);
 
-        void UpdateUserGoodTypesByAddingType(int id, List<GoodType> goodTypes);
+        void UpdateUserGoodTypesByAddingTypes(int id, List<GoodTypeDTO> goodTypes);
     }
 }

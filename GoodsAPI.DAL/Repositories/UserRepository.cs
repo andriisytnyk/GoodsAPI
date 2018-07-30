@@ -141,7 +141,7 @@ namespace GoodsAPI.DAL.Repositories
         }
 
         //Update user's list of goodTypes by adding new list of goodTypes
-        public void UpdateUserGoodTypesByAddingType(int id, List<GoodType> goodTypes)
+        public void UpdateUserGoodTypesByAddingTypes(int id, List<GoodType> goodTypes)
         {
             var temp = GetById(id);
             foreach (var item in goodTypes)
