@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GoodsAPI.Shared.DTO
+﻿namespace GoodsAPI.Shared.DTO
 {
     public class GoodTypeDTO
     {
