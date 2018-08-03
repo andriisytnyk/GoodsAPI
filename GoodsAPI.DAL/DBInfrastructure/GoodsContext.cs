@@ -17,9 +17,9 @@ namespace GoodsAPI.DAL.DBInfrastructure
 
         //private readonly ConnectionStringService connectionStringService;
 
-        public GoodsContext()
+        public GoodsContext(DbContextOptions<GoodsContext> options) : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

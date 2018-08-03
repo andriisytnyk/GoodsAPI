@@ -4,9 +4,9 @@ using GoodsAPI.Shared.DTO;
 
 namespace GoodsAPI.BLL.Mapping
 {
-    public class Mapping
+    public static class Mapping
     {
-        public MapperConfiguration ConfigureMapping()
+        public static MapperConfiguration ConfigureMapping()
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -27,8 +27,7 @@ namespace GoodsAPI.BLL.Mapping
 
                 cfg.CreateMap<User, UserDTO>();
                 cfg.CreateMap<UserDTO, User>();
-            }
-            );
+            });
             return config;
         }
     }

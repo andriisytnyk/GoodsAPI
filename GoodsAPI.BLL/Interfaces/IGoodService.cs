@@ -26,9 +26,9 @@ namespace GoodsAPI.BLL.Interfaces
 
         void UpdateGoodByChangingCount(int id, float count);
 
-        void UpdateGoodByChangingType(int id, GoodType goodType);
+        void UpdateGoodByChangingType(int id, GoodTypeDTO goodType);
 
-        void UpdateGoodByChangingImportance(int id, Importance goodImportance);
+        void UpdateGoodByChangingImportance(int id, ImportanceDTO goodImportance);
 
         void UpdateGoodByChangingBoughtDate(int id, DateTime boughtDate);
     }

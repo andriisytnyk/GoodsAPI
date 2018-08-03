@@ -71,11 +71,11 @@ namespace GoodsAPI.BLL.Services
             }
         }
 
-        public void UpdateBillByAddingAccount(int id, Account account)
+        public void UpdateBillByAddingAccount(int id, AccountDTO account)
         {
             try
             {
-                repository.UpdateBillByAddingAccount(id, account);
+                repository.UpdateBillByAddingAccount(id, mapper.Map<Account>(account));
             }
             catch (ArgumentNullException)
             {

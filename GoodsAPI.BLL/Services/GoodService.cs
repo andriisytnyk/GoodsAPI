@@ -109,14 +109,14 @@ namespace GoodsAPI.BLL.Services
             }
         }
 
-        public void UpdateGoodByChangingImportance(int id, Importance goodImportance)
+        public void UpdateGoodByChangingImportance(int id, ImportanceDTO goodImportance)
         {
             var validationResult = validator.Validate(new GoodDTO { GoodImportance = goodImportance }, "GoodImportance");
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
             try
             {
-                repository.UpdateGoodByChangingImportance(id, goodImportance);
+                repository.UpdateGoodByChangingImportance(id, mapper.Map<Importance>(goodImportance));
             }
             catch (ArgumentNullException)
             {
@@ -166,14 +166,14 @@ namespace GoodsAPI.BLL.Services
             }
         }
 
-        public void UpdateGoodByChangingType(int id, GoodType goodType)
+        public void UpdateGoodByChangingType(int id, GoodTypeDTO goodType)
         {
             var validationResult = validator.Validate(new GoodDTO { GoodType = goodType }, "GoodType");
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
             try
             {
-                repository.UpdateGoodByChangingType(id, goodType);
+                repository.UpdateGoodByChangingType(id, mapper.Map<GoodType>(goodType));
             }
             catch (ArgumentNullException)
             {

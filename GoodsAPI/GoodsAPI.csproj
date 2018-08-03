@@ -10,6 +10,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GoodsAPI.BLL\GoodsAPI.BLL.csproj" />
+    <ProjectReference Include="..\GoodsAPI.Shared\GoodsAPI.Shared.csproj" />
   </ItemGroup>
 
 </Project>

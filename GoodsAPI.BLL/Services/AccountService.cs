@@ -23,25 +23,6 @@ namespace GoodsAPI.BLL.Services
             this.validator = validator;
         }
 
-        public void Create(AccountDTO account)
-        {
-            var validationResult = validator.Validate(account);
-            if (validationResult.IsValid)
-                repository.Create(mapper.Map<Account>(account));
-            else
-                throw new ValidationException(validationResult.Errors);
-        }
-
-        public void Delete(AccountDTO account)
-        {
-            repository.Delete(mapper.Map<Account>(account));
-        }
-
-        public void DeleteById(int id)
-        {
-            repository.DeleteById(id);
-        }
-
         public List<AccountDTO> GetAll()
         {
             return mapper.Map<List<AccountDTO>>(repository.GetAll());
@@ -50,6 +31,15 @@ namespace GoodsAPI.BLL.Services
         public AccountDTO GetById(int id)
         {
             return mapper.Map<AccountDTO>(repository.GetById(id));
+        }
+
+        public void Create(AccountDTO account)
+        {
+            var validationResult = validator.Validate(account);
+            if (validationResult.IsValid)
+                repository.Create(mapper.Map<Account>(account));
+            else
+                throw new ValidationException(validationResult.Errors);
         }
 
         public void Update(int id, AccountDTO account)
@@ -107,6 +97,16 @@ namespace GoodsAPI.BLL.Services
             {
                 throw;
             }
+        }
+
+        public void Delete(AccountDTO account)
+        {
+            repository.Delete(mapper.Map<Account>(account));
+        }
+
+        public void DeleteById(int id)
+        {
+            repository.DeleteById(id);
         }
     }
 }

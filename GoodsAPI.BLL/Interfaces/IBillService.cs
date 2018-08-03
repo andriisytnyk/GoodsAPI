@@ -18,7 +18,7 @@ namespace GoodsAPI.BLL.Interfaces
 
         void DeleteById(int id);
 
-        void UpdateBillByAddingAccount(int id, Account account);
+        void UpdateBillByAddingAccount(int id, AccountDTO account);
 
         void UpdateBillByDeletingAccount(int id, decimal sum);
     }
