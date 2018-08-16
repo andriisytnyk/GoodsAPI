@@ -12,10 +12,14 @@ namespace GoodsAPI.Controllers
     public class BillController : ControllerBase
     {
         readonly IBillService service;
+        readonly IAccountService accService;
+        private readonly IMapper mapper;
 
-        public BillController(IBillService billService)
+        public BillController(IBillService billService, IAccountService accService, IMapper mapper)
         {
             service = billService;
+            this.accService = accService;
+            this.mapper = mapper;
         }
 
         // GET: v1/api/bill
@@ -53,8 +57,15 @@ namespace GoodsAPI.Controllers
         {
             try
             {
-                service.Create(bill);
-                return Ok();
+                bill.Sum = 0;
+                if (bill.Accounts != null)
+                {
+                    foreach (var item in bill.Accounts)
+                    {
+                        bill.Sum += item.Sum;
+                    }
+                }
+                return Ok(service.Create(bill));
             }
             catch (ValidationException e)
             {

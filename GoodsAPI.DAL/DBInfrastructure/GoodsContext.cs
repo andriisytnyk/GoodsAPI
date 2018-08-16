@@ -22,11 +22,6 @@ namespace GoodsAPI.DAL.DBInfrastructure
             Database.EnsureCreated();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server = DESKTOP-5S77NGN; Database = GoodsDB; Trusted_Connection = True;");
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -35,17 +30,39 @@ namespace GoodsAPI.DAL.DBInfrastructure
         public DbSet<TEntity> SetOf<TEntity>() where TEntity : Entity
         {
             if (Accounts is IEnumerable<TEntity>)
+            {
                 return Accounts as DbSet<TEntity>;
+            }
             else if (Bills is IEnumerable<TEntity>)
+            {
+                Accounts.Load();
                 return Bills as DbSet<TEntity>;
+            }
             else if (Goods is IEnumerable<TEntity>)
+            {
+                Importances.Load();
+                GoodTypes.Load();
                 return Goods as DbSet<TEntity>;
+            }
             else if (Importances is IEnumerable<TEntity>)
+            {
                 return Importances as DbSet<TEntity>;
+            }
             else if (GoodTypes is IEnumerable<TEntity>)
+            {
                 return GoodTypes as DbSet<TEntity>;
-            else
+            }
+            else if (Users is IEnumerable<TEntity>)
+            {
+                Bills.Load();
+                Goods.Load();
+                GoodTypes.Load();
                 return Users as DbSet<TEntity>;
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
     }
 }

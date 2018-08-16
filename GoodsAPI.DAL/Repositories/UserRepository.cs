@@ -19,7 +19,7 @@ namespace GoodsAPI.DAL.Repositories
             temp.Password = entity.Password;
             temp.UserBill = entity.UserBill;
             temp.AllGoods = entity.AllGoods;
-            temp.UniqueGoods = entity.UniqueGoods;
+            //temp.UniqueGoods = entity.UniqueGoods;
             temp.UserGoodTypes = entity.UserGoodTypes;
             goodsContext.Users.Update(temp);
             base.Update(id, temp);
@@ -86,39 +86,39 @@ namespace GoodsAPI.DAL.Repositories
         
         #endregion
 
-        #region UpdateUniqueGoods
+        //#region UpdateUniqueGoods
         
-        //Update user's list of unique goods by replacing with another list
-        public void UpdateUniqueGoods(int id, List<Good> uniqueGoods)
-        {
-            var temp = GetById(id);
-            temp.UniqueGoods = uniqueGoods;
-            goodsContext.Users.Update(temp);
-            base.Update(id, temp);
-        }
+        ////Update user's list of unique goods by replacing with another list
+        //public void UpdateUniqueGoods(int id, List<Good> uniqueGoods)
+        //{
+        //    var temp = GetById(id);
+        //    temp.UniqueGoods = uniqueGoods;
+        //    goodsContext.Users.Update(temp);
+        //    base.Update(id, temp);
+        //}
 
-        //Update user's list of unique goods by adding new good
-        public void UpdateUniqueGoodsByAddingGood(int id, Good good)
-        {
-            var temp = GetById(id);
-            temp.UniqueGoods.Add(good);
-            goodsContext.Users.Update(temp);
-            base.Update(id, temp);
-        }
+        ////Update user's list of unique goods by adding new good
+        //public void UpdateUniqueGoodsByAddingGood(int id, Good good)
+        //{
+        //    var temp = GetById(id);
+        //    temp.UniqueGoods.Add(good);
+        //    goodsContext.Users.Update(temp);
+        //    base.Update(id, temp);
+        //}
 
-        //Update user's list of unique goods by adding new list of goods
-        public void UpdateUniqueGoodsByAddingGoods(int id, List<Good> goods)
-        {
-            var temp = GetById(id);
-            foreach (var item in goods)
-            {
-                temp.AllGoods.Add(item);
-            }
-            goodsContext.Users.Update(temp);
-            base.Update(id, temp);
-        }
+        ////Update user's list of unique goods by adding new list of goods
+        //public void UpdateUniqueGoodsByAddingGoods(int id, List<Good> goods)
+        //{
+        //    var temp = GetById(id);
+        //    foreach (var item in goods)
+        //    {
+        //        temp.AllGoods.Add(item);
+        //    }
+        //    goodsContext.Users.Update(temp);
+        //    base.Update(id, temp);
+        //}
         
-        #endregion
+        //#endregion
 
         #region UpdateUserGoodTypes
         

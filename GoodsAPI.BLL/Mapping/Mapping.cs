@@ -1,34 +1,228 @@
-﻿using AutoMapper;
-using GoodsAPI.DAL.Models;
+﻿using GoodsAPI.DAL.Models;
+using GoodsAPI.DAL.Repositories;
 using GoodsAPI.Shared.DTO;
+using GoodsAPI.BLL.Interfaces;
+using System.Collections.Generic;
 
 namespace GoodsAPI.BLL.Mapping
 {
-    public static class Mapping
+    public class Mapping : IMapper
     {
-        public static MapperConfiguration ConfigureMapping()
+        private readonly AccountRepository accRepo;
+        private readonly BillRepository billRepo;
+        private readonly GoodRepository goodRepo;
+        private readonly GoodTypeRepository goodTypeRepo;
+        private readonly ImportanceRepository impRepo;
+        private readonly UserRepository userRepo;
+
+        public Mapping(AccountRepository accRepo, BillRepository billRepo, GoodRepository goodRepo, 
+            GoodTypeRepository goodTypeRepo, ImportanceRepository impRepo, UserRepository userRepo)
         {
-            var config = new MapperConfiguration(cfg =>
+            this.accRepo = accRepo;
+            this.billRepo = billRepo;
+            this.goodRepo = goodRepo;
+            this.goodTypeRepo = goodTypeRepo;
+            this.impRepo = impRepo;
+            this.userRepo = userRepo;
+        }
+
+        public AccountDTO MapAccount(Account value)
+        {
+            return new AccountDTO()
             {
-                cfg.CreateMap<Account, AccountDTO>();
-                cfg.CreateMap<AccountDTO, Account>();
+                Id = value.Id,
+                Name = value.Name,
+                Sum = value.Sum
+            };
+        }
 
-                cfg.CreateMap<Bill, BillDTO>();
-                cfg.CreateMap<BillDTO, Bill>();
+        public Account MapAccount(AccountDTO value)
+        {
+            return new Account()
+            {
+                Id = value.Id,
+                Name = value.Name,
+                Sum = value.Sum
+            };
+        }
 
-                cfg.CreateMap<Good, GoodDTO>();
-                cfg.CreateMap<GoodDTO, Good>();
+        public BillDTO MapBill(Bill value)
+        {
+            var list = new List<AccountDTO>();
+            if (value.Accounts != null)
+            {
+                foreach (var item in value.Accounts)
+                    list.Add(MapAccount(item));
+            }
+            return new BillDTO
+            {
+                Id = value.Id,
+                Sum = value.Sum,
+                Accounts = list
+            };
+        }
 
-                cfg.CreateMap<GoodType, GoodTypeDTO>();
-                cfg.CreateMap<GoodTypeDTO, GoodType>();
+        public Bill MapBill(BillDTO value)
+        {
+            var listAcc = accRepo.GetAll();
+            var list = new List<Account>();
+            if (value.Accounts != null)
+            {
+                foreach (var item in value.Accounts)
+                {
+                    foreach (var acc in listAcc)
+                    {
+                        if (item.Id == acc.Id)
+                        {
+                            list.Add(acc);
+                            goto Next;
+                        }
+                    }
+                    Next:;
+                }
+            }
+            return new Bill
+            {
+                Id = value.Id,
+                Sum = value.Sum,
+                Accounts = list
+            };
+        }
 
-                cfg.CreateMap<Importance, ImportanceDTO>();
-                cfg.CreateMap<ImportanceDTO, Importance>();
+        public GoodDTO MapGood(Good value)
+        {
+            return new GoodDTO
+            {
+                Id = value.Id,
+                Name = value.Name,
+                Price = value.Price,
+                Count = value.Count,
+                GoodType = MapGoodType(value.GoodType),
+                GoodImportance = MapImportance(value.GoodImportance),
+                BoughtDate = value.BoughtDate
+            };
+        }
 
-                cfg.CreateMap<User, UserDTO>();
-                cfg.CreateMap<UserDTO, User>();
-            });
-            return config;
+        public Good MapGood(GoodDTO value)
+        {
+            return new Good
+            {
+                Id = value.Id,
+                Name = value.Name,
+                Price = value.Price,
+                Count = value.Count,
+                GoodType = MapGoodType(value.GoodType),
+                GoodImportance = MapImportance(value.GoodImportance),
+                BoughtDate = value.BoughtDate
+            };
+        }
+
+        public GoodTypeDTO MapGoodType(GoodType value)
+        {
+            return new GoodTypeDTO
+            {
+                Id = value.Id,
+                Name = value.Name
+            };
+        }
+
+        public GoodType MapGoodType(GoodTypeDTO value)
+        {
+            return new GoodType
+            {
+                Id = value.Id,
+                Name = value.Name
+            };
+        }
+
+        public ImportanceDTO MapImportance(Importance value)
+        {
+            return new ImportanceDTO
+            {
+                Id = value.Id,
+                Name = value.Name
+            };
+        }
+
+        public Importance MapImportance(ImportanceDTO value)
+        {
+            return new Importance
+            {
+                Id = value.Id,
+                Name = value.Name
+            };
+        }
+
+        public UserDTO MapUser(User value)
+        {
+            var listGoods = new List<GoodDTO>();
+            if (value.AllGoods != null)
+            {
+                foreach (var item in value.AllGoods)
+                    listGoods.Add(MapGood(item));
+            }
+            var listGoodTypes = new List<GoodTypeDTO>();
+            if (value.UserGoodTypes != null)
+            {
+                foreach (var item in value.UserGoodTypes)
+                    listGoodTypes.Add(MapGoodType(item));
+            }
+            return new UserDTO
+            {
+                Id = value.Id,
+                Login = value.Login,
+                Password = value.Password,
+                UserBill = MapBill(value.UserBill),
+                AllGoods = listGoods,
+                UserGoodTypes = listGoodTypes,
+            };
+        }
+
+        public User MapUser(UserDTO value)
+        {
+            var listGoods = goodRepo.GetAll();
+            var listUserGoods = new List<Good>();
+            if (value.AllGoods != null)
+            {
+                foreach (var item in value.AllGoods)
+                {
+                    foreach (var good in listGoods)
+                    {
+                        if (item.Id == good.Id)
+                        {
+                            listUserGoods.Add(good);
+                            goto Next1;
+                        }
+                    }
+                    Next1:;
+                }
+            }
+            var listGoodTypes = goodTypeRepo.GetAll();
+            var listUserGoodTypes = new List<GoodType>();
+            if (value.UserGoodTypes != null)
+            {
+                foreach (var item in value.UserGoodTypes)
+                {
+                    foreach (var goodType in listGoodTypes)
+                    {
+                        if (item.Id == goodType.Id)
+                        {
+                            listUserGoodTypes.Add(goodType);
+                            goto Next1;
+                        }
+                    }
+                    Next1:;
+                }
+            }
+            return new User
+            {
+                Id = value.Id,
+                Login = value.Login,
+                Password = value.Password,
+                UserBill = MapBill(value.UserBill),
+                AllGoods = listUserGoods,
+                UserGoodTypes = listUserGoodTypes
+            };
         }
     }
 }

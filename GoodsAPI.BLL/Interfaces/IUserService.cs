@@ -9,7 +9,7 @@ namespace GoodsAPI.BLL.Interfaces
 
         UserDTO GetById(int id);
 
-        void Create(UserDTO user);
+        int Create(UserDTO user);
 
         void Update(int id, UserDTO user);
 
@@ -28,12 +28,6 @@ namespace GoodsAPI.BLL.Interfaces
         void UpdateAllGoodsByAddingGood(int id, GoodDTO good);
 
         void UpdateAllGoodsByAddingGoods(int id, List<GoodDTO> goods);
-
-        void UpdateUniqueGoods(int id, List<GoodDTO> uniqueGoods);
-
-        void UpdateUniqueGoodsByAddingGood(int id, GoodDTO good);
-
-        void UpdateUniqueGoodsByAddingGoods(int id, List<GoodDTO> goods);
 
         void UpdateUserGoodTypes(int id, List<GoodTypeDTO> userGoodTypes);
 

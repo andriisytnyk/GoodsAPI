@@ -9,7 +9,7 @@ namespace GoodsAPI.BLL.Interfaces
 
         GoodTypeDTO GetById(int id);
 
-        void Create(GoodTypeDTO goodType);
+        int Create(GoodTypeDTO goodType);
 
         void Update(int id, GoodTypeDTO goodType);
 

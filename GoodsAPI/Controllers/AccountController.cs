@@ -56,8 +56,7 @@ namespace GoodsAPI.Controllers
         {
             try
             {
-                service.Create(account);
-                return Ok();
+                return Ok(service.Create(account));
             }
             catch (ValidationException e)
             {
@@ -148,7 +147,7 @@ namespace GoodsAPI.Controllers
         {
             try
             {
-                var bill = billService.GetAll().SingleOrDefault(b => b.Accounts.Select(a => a.Id).Contains(account.Id));
+                var bill = billService.GetAll().SingleOrDefault(b => b.Accounts.Contains(account));
                 billService.UpdateBillByDeletingAccount(bill.Id, account.Sum);
                 service.Delete(account);
                 return NoContent();
@@ -166,8 +165,8 @@ namespace GoodsAPI.Controllers
         {
             try
             {
-                var bill = billService.GetAll().SingleOrDefault(b => b.Accounts.Select(a => a.Id).Contains(id));
-                billService.UpdateBillByDeletingAccount(bill.Id, bill.Accounts.SingleOrDefault(a => a.Id == id).Sum);
+                var bill = billService.GetAll().SingleOrDefault(b => b.Accounts.Contains(service.GetById(id)));
+                billService.UpdateBillByDeletingAccount(bill.Id, service.GetById(id).Sum);
                 service.DeleteById(id);
                 return NoContent();
             }

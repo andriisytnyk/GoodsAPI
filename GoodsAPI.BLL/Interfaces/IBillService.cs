@@ -1,5 +1,4 @@
-﻿using GoodsAPI.DAL.Models;
-using GoodsAPI.Shared.DTO;
+﻿using GoodsAPI.Shared.DTO;
 using System.Collections.Generic;
 
 namespace GoodsAPI.BLL.Interfaces
@@ -10,7 +9,7 @@ namespace GoodsAPI.BLL.Interfaces
 
         BillDTO GetById(int id);
 
-        void Create(BillDTO bill);
+        int Create(BillDTO bill);
 
         void Update(int id, BillDTO bill);
 

@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using GoodsAPI.BLL.Interfaces;
-using GoodsAPI.DAL.Models;
 using GoodsAPI.DAL.Repositories;
 using GoodsAPI.Shared.DTO;
 using GoodsAPI.Shared.Exceptions;
@@ -23,33 +21,28 @@ namespace GoodsAPI.BLL.Services
             this.validator = validator;
         }
 
-        public void Create(ImportanceDTO importance)
-        {
-            var validationResult = validator.Validate(importance);
-            if (validationResult.IsValid)
-                repository.Create(mapper.Map<Importance>(importance));
-            else
-                throw new ValidationException(validationResult.Errors);
-        }
-
-        public void Delete(ImportanceDTO importance)
-        {
-            repository.Delete(mapper.Map<Importance>(importance));
-        }
-
-        public void DeleteById(int id)
-        {
-            repository.DeleteById(id);
-        }
-
         public List<ImportanceDTO> GetAll()
         {
-            return mapper.Map<List<ImportanceDTO>>(repository.GetAll());
+            var result = new List<ImportanceDTO>();
+            foreach (var item in repository.GetAll())
+            {
+                result.Add(mapper.MapImportance(item));
+            }
+            return result;
         }
 
         public ImportanceDTO GetById(int id)
         {
-            return mapper.Map<ImportanceDTO>(repository.GetById(id));
+            return mapper.MapImportance(repository.GetById(id));
+        }
+
+        public int Create(ImportanceDTO importance)
+        {
+            var validationResult = validator.Validate(importance);
+            if (validationResult.IsValid)
+                return repository.Create(mapper.MapImportance(importance));
+            else
+                throw new ValidationException(validationResult.Errors);
         }
 
         public void Update(int id, ImportanceDTO importance)
@@ -59,7 +52,7 @@ namespace GoodsAPI.BLL.Services
                 throw new ValidationException(validationResult.Errors);
             try
             {
-                repository.Update(id, mapper.Map<Importance>(importance));
+                repository.Update(id, mapper.MapImportance(importance));
             }
             catch (ArgumentNullException)
             {
@@ -88,6 +81,16 @@ namespace GoodsAPI.BLL.Services
             {
                 throw;
             }
+        }
+
+        public void Delete(ImportanceDTO importance)
+        {
+            repository.Delete(mapper.MapImportance(importance));
+        }
+
+        public void DeleteById(int id)
+        {
+            repository.DeleteById(id);
         }
     }
 }

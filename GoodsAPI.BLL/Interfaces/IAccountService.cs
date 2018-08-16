@@ -9,7 +9,7 @@ namespace GoodsAPI.BLL.Interfaces
 
         AccountDTO GetById(int id);
 
-        void Create(AccountDTO account);
+        int Create(AccountDTO account);
 
         void Update(int id, AccountDTO account);
 

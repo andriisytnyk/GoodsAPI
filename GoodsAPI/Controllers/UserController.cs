@@ -54,8 +54,7 @@ namespace GoodsAPI.Controllers
         {
             try
             {
-                service.Create(user);
-                return Ok();
+                return Ok(service.Create(user));
             }
             catch (ValidationException e)
             {
@@ -163,8 +162,8 @@ namespace GoodsAPI.Controllers
             }
         }
 
-        // PATCH: v1/api/user/{id}/bill
-        [Route("{id:int}/bill")]
+        // PATCH: v1/api/user/{id}/billid
+        [Route("{id:int}/billid")]
         [HttpPatch]
         public IActionResult PatchBill([FromRoute]int id, [FromBody]BillDTO bill)
         {
@@ -219,78 +218,6 @@ namespace GoodsAPI.Controllers
             try
             {
                 service.UpdatePassword(id, password);
-                return Ok();
-            }
-            catch (NotFoundException)
-            {
-                return NotFound();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(e.Message);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
-
-        // PATCH: v1/api/user/{id}/unique_goods
-        [Route("{id:int}/unique_goods")]
-        [HttpPatch]
-        public IActionResult PatchListOfUniqueGoods([FromRoute]int id, [FromBody]List<GoodDTO> uniqueGoods)
-        {
-            try
-            {
-                service.UpdateUniqueGoods(id, uniqueGoods);
-                return Ok();
-            }
-            catch (NotFoundException)
-            {
-                return NotFound();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(e.Message);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
-
-        // PATCH: v1/api/user/{id}/good_for_list_of_unique_goods
-        [Route("{id:int}/good_for_list_of_unique_goods")]
-        [HttpPatch]
-        public IActionResult PatchListOfUniqueGoodsByAddingGood([FromRoute]int id, [FromBody]GoodDTO good)
-        {
-            try
-            {
-                service.UpdateUniqueGoodsByAddingGood(id, good);
-                return Ok();
-            }
-            catch (NotFoundException)
-            {
-                return NotFound();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(e.Message);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
-
-        // PATCH: v1/api/user/{id}/goods_for_list_of_unique_goods
-        [Route("{id:int}/goods_for_list_of_unique_goods")]
-        [HttpPatch]
-        public IActionResult PatchListOfUniqueGoodsByAddingGoods([FromRoute]int id, [FromBody]List<GoodDTO> goods)
-        {
-            try
-            {
-                service.UpdateUniqueGoodsByAddingGoods(id, goods);
                 return Ok();
             }
             catch (NotFoundException)

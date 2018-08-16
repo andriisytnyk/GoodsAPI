@@ -53,8 +53,7 @@ namespace GoodsAPI.Controllers
         {
             try
             {
-                service.Create(good);
-                return Ok();
+                return Ok(service.Create(good));
             }
             catch (ValidationException e)
             {

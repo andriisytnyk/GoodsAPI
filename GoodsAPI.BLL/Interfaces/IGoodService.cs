@@ -12,7 +12,7 @@ namespace GoodsAPI.BLL.Interfaces
 
         GoodDTO GetById(int id);
 
-        void Create(GoodDTO good);
+        int Create(GoodDTO good);
 
         void Update(int id, GoodDTO good);
 

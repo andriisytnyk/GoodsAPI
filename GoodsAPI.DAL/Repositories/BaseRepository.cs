@@ -15,10 +15,11 @@ namespace GoodsAPI.DAL.Repositories
             goodsContext = dbContext;
         }
 
-        public virtual void Create(TEntity entity)
+        public virtual int Create(TEntity entity)
         {
             goodsContext.SetOf<TEntity>().Add(entity);
             goodsContext.SaveChanges();
+            return entity.Id;
         }
 
         public virtual void Delete(TEntity entity)

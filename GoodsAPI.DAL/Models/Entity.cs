@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GoodsAPI.DAL.Models
+﻿namespace GoodsAPI.DAL.Models
 {
-    public class Entity
+    public abstract class Entity
     {
         public int Id { get; set; }
     }

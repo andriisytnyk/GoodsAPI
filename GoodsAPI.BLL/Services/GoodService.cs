@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using GoodsAPI.BLL.Interfaces;
-using GoodsAPI.DAL.Models;
 using GoodsAPI.DAL.Repositories;
 using GoodsAPI.Shared.DTO;
 using GoodsAPI.Shared.Exceptions;
@@ -23,33 +21,28 @@ namespace GoodsAPI.BLL.Services
             this.validator = validator;
         }
 
-        public void Create(GoodDTO good)
-        {
-            var validationResult = validator.Validate(good);
-            if (validationResult.IsValid)
-                repository.Create(mapper.Map<Good>(good));
-            else
-                throw new ValidationException(validationResult.Errors);
-        }
-
-        public void Delete(GoodDTO good)
-        {
-            repository.Delete(mapper.Map<Good>(good));
-        }
-
-        public void DeleteById(int id)
-        {
-            repository.DeleteById(id);
-        }
-
         public List<GoodDTO> GetAll()
         {
-            return mapper.Map<List<GoodDTO>>(repository.GetAll());
+            var result = new List<GoodDTO>();
+            foreach (var item in repository.GetAll())
+            {
+                result.Add(mapper.MapGood(item));
+            }
+            return result;
         }
 
         public GoodDTO GetById(int id)
         {
-            return mapper.Map<GoodDTO>(repository.GetById(id));
+            return mapper.MapGood(repository.GetById(id));
+        }
+
+        public int Create(GoodDTO good)
+        {
+            var validationResult = validator.Validate(good);
+            if (validationResult.IsValid)
+                return repository.Create(mapper.MapGood(good));
+            else
+                throw new ValidationException(validationResult.Errors);
         }
 
         public void Update(int id, GoodDTO good)
@@ -59,7 +52,7 @@ namespace GoodsAPI.BLL.Services
                 throw new ValidationException(validationResult.Errors);
             try
             {
-                repository.Update(id, mapper.Map<Good>(good));
+                repository.Update(id, mapper.MapGood(good));
             }
             catch (ArgumentNullException)
             {
@@ -116,7 +109,7 @@ namespace GoodsAPI.BLL.Services
                 throw new ValidationException(validationResult.Errors);
             try
             {
-                repository.UpdateGoodByChangingImportance(id, mapper.Map<Importance>(goodImportance));
+                repository.UpdateGoodByChangingImportance(id, mapper.MapImportance(goodImportance));
             }
             catch (ArgumentNullException)
             {
@@ -173,7 +166,7 @@ namespace GoodsAPI.BLL.Services
                 throw new ValidationException(validationResult.Errors);
             try
             {
-                repository.UpdateGoodByChangingType(id, mapper.Map<GoodType>(goodType));
+                repository.UpdateGoodByChangingType(id, mapper.MapGoodType(goodType));
             }
             catch (ArgumentNullException)
             {
@@ -183,6 +176,16 @@ namespace GoodsAPI.BLL.Services
             {
                 throw;
             }
+        }
+
+        public void Delete(GoodDTO good)
+        {
+            repository.Delete(mapper.MapGood(good));
+        }
+
+        public void DeleteById(int id)
+        {
+            repository.DeleteById(id);
         }
     }
 }

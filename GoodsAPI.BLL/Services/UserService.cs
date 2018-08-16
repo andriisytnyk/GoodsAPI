@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using GoodsAPI.BLL.Interfaces;
 using GoodsAPI.DAL.Models;
 using GoodsAPI.DAL.Repositories;
@@ -13,46 +12,47 @@ namespace GoodsAPI.BLL.Services
     public class UserService : IUserService
     {
         private readonly UserRepository repository;
+        private readonly IBillService billService;
         private readonly IMapper mapper;
         private readonly AbstractValidator<UserDTO> userValidator;
         private readonly AbstractValidator<GoodDTO> goodValidator;
         private readonly AbstractValidator<BillDTO> billValidator;
         private readonly AbstractValidator<GoodTypeDTO> goodTypeValidator;
 
-        public UserService(UserRepository userRepository, IMapper mapper, AbstractValidator<UserDTO> userValidator)
+        public UserService(UserRepository userRepository, IBillService billService, IMapper mapper, AbstractValidator<UserDTO> userValidator,
+            AbstractValidator<GoodDTO> goodValidator, AbstractValidator<BillDTO> billValidator, AbstractValidator<GoodTypeDTO> goodTypeValidator)
         {
             this.repository = userRepository;
+            this.billService = billService;
             this.mapper = mapper;
             this.userValidator = userValidator;
-        }
-
-        public void Create(UserDTO user)
-        {
-            var validationResult = userValidator.Validate(user);
-            if (validationResult.IsValid)
-                repository.Create(mapper.Map<User>(user));
-            else
-                throw new ValidationException(validationResult.Errors);
-        }
-
-        public void Delete(UserDTO user)
-        {
-            repository.Delete(mapper.Map<User>(user));
-        }
-
-        public void DeleteById(int id)
-        {
-            repository.DeleteById(id);
+            this.goodValidator = goodValidator;
+            this.billValidator = billValidator;
+            this.goodTypeValidator = goodTypeValidator;
         }
 
         public List<UserDTO> GetAll()
         {
-            return mapper.Map<List<UserDTO>>(repository.GetAll());
+            var result = new List<UserDTO>();
+            foreach (var item in repository.GetAll())
+            {
+                result.Add(mapper.MapUser(item));
+            }
+            return result;
         }
 
         public UserDTO GetById(int id)
         {
-            return mapper.Map<UserDTO>(repository.GetById(id));
+            return mapper.MapUser(repository.GetById(id));
+        }
+
+        public int Create(UserDTO user)
+        {
+            var validationResult = userValidator.Validate(user);
+            if (validationResult.IsValid)
+                return repository.Create(mapper.MapUser(user));
+            else
+                throw new ValidationException(validationResult.Errors);
         }
 
         public void Update(int id, UserDTO user)
@@ -62,7 +62,7 @@ namespace GoodsAPI.BLL.Services
                 throw new ValidationException(validationResult.Errors);
             try
             {
-                repository.Update(id, mapper.Map<User>(user));
+                repository.Update(id, mapper.MapUser(user));
             }
             catch (ArgumentNullException)
             {
@@ -85,7 +85,12 @@ namespace GoodsAPI.BLL.Services
   
             try
             {
-                repository.UpdateAllGoods(id, mapper.Map<List<Good>>(allGoods));
+                var newAllGoods = new List<Good>();
+                foreach (var item in allGoods)
+                {
+                    newAllGoods.Add(mapper.MapGood(item));
+                }
+                repository.UpdateAllGoods(id, newAllGoods);
             }
             catch (ArgumentNullException)
             {
@@ -105,7 +110,7 @@ namespace GoodsAPI.BLL.Services
 
             try
             {
-                repository.UpdateAllGoodsByAddingGood(id, mapper.Map<Good>(good));
+                repository.UpdateAllGoodsByAddingGood(id, mapper.MapGood(good));
             }
             catch (ArgumentNullException)
             {
@@ -128,7 +133,12 @@ namespace GoodsAPI.BLL.Services
 
             try
             {
-                repository.UpdateAllGoodsByAddingGoods(id, mapper.Map<List<Good>>(goods));
+                var newGoods = new List<Good>();
+                foreach (var item in goods)
+                {
+                    newGoods.Add(mapper.MapGood(item));
+                }
+                repository.UpdateAllGoodsByAddingGoods(id, newGoods);
             }
             catch (ArgumentNullException)
             {
@@ -148,7 +158,7 @@ namespace GoodsAPI.BLL.Services
 
             try
             {
-                repository.UpdateBill(id, mapper.Map<Bill>(userBill));
+                repository.UpdateBill(id, mapper.MapBill(userBill));
             }
             catch (ArgumentNullException)
             {
@@ -200,72 +210,6 @@ namespace GoodsAPI.BLL.Services
             }
         }
 
-        public void UpdateUniqueGoods(int id, List<GoodDTO> uniqueGoods)
-        {
-            foreach (var item in uniqueGoods)
-            {
-                var validationResult = goodValidator.Validate(item);
-                if (!validationResult.IsValid)
-                    throw new ValidationException(validationResult.Errors);
-            }
-
-            try
-            {
-                repository.UpdateUniqueGoods(id, mapper.Map<List<Good>>(uniqueGoods));
-            }
-            catch (ArgumentNullException)
-            {
-                throw new NotFoundException();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public void UpdateUniqueGoodsByAddingGood(int id, GoodDTO good)
-        {
-            var validationResult = goodValidator.Validate(good);
-            if (!validationResult.IsValid)
-                throw new ValidationException(validationResult.Errors);
-
-            try
-            {
-                repository.UpdateUniqueGoodsByAddingGood(id, mapper.Map<Good>(good));
-            }
-            catch (ArgumentNullException)
-            {
-                throw new NotFoundException();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public void UpdateUniqueGoodsByAddingGoods(int id, List<GoodDTO> goods)
-        {
-            foreach (var item in goods)
-            {
-                var validationResult = goodValidator.Validate(item);
-                if (!validationResult.IsValid)
-                    throw new ValidationException(validationResult.Errors);
-            }
-
-            try
-            {
-                repository.UpdateUniqueGoodsByAddingGoods(id, mapper.Map<List<Good>>(goods));
-            }
-            catch (ArgumentNullException)
-            {
-                throw new NotFoundException();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public void UpdateUserGoodTypes(int id, List<GoodTypeDTO> userGoodTypes)
         {
             foreach (var item in userGoodTypes)
@@ -277,7 +221,12 @@ namespace GoodsAPI.BLL.Services
 
             try
             {
-                repository.UpdateUserGoodTypes(id, mapper.Map<List<GoodType>>(userGoodTypes));
+                var newGoodTypes = new List<GoodType>();
+                foreach (var item in userGoodTypes)
+                {
+                    newGoodTypes.Add(mapper.MapGoodType(item));
+                }
+                repository.UpdateUserGoodTypes(id, newGoodTypes);
             }
             catch (ArgumentNullException)
             {
@@ -297,7 +246,7 @@ namespace GoodsAPI.BLL.Services
 
             try
             {
-                repository.UpdateUserGoodTypesByAddingType(id, mapper.Map<GoodType>(goodType));
+                repository.UpdateUserGoodTypesByAddingType(id, mapper.MapGoodType(goodType));
             }
             catch (ArgumentNullException)
             {
@@ -320,7 +269,12 @@ namespace GoodsAPI.BLL.Services
 
             try
             {
-                repository.UpdateUserGoodTypesByAddingTypes(id, mapper.Map<List<GoodType>>(goodTypes));
+                var newGoodTypes = new List<GoodType>();
+                foreach (var item in goodTypes)
+                {
+                    newGoodTypes.Add(mapper.MapGoodType(item));
+                }
+                repository.UpdateUserGoodTypesByAddingTypes(id, newGoodTypes);
             }
             catch (ArgumentNullException)
             {
@@ -330,6 +284,16 @@ namespace GoodsAPI.BLL.Services
             {
                 throw;
             }
+        }
+
+        public void Delete(UserDTO user)
+        {
+            repository.Delete(mapper.MapUser(user));
+        }
+
+        public void DeleteById(int id)
+        {
+            repository.DeleteById(id);
         }
     }
 }

@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using GoodsAPI.BLL.Interfaces;
-using GoodsAPI.DAL.Models;
 using GoodsAPI.DAL.Repositories;
 using GoodsAPI.Shared.DTO;
 using GoodsAPI.Shared.Exceptions;
@@ -25,19 +23,24 @@ namespace GoodsAPI.BLL.Services
 
         public List<AccountDTO> GetAll()
         {
-            return mapper.Map<List<AccountDTO>>(repository.GetAll());
+            var result = new List<AccountDTO>();
+            foreach (var item in repository.GetAll())
+            {
+                result.Add(mapper.MapAccount(item));
+            }
+            return result;
         }
 
         public AccountDTO GetById(int id)
         {
-            return mapper.Map<AccountDTO>(repository.GetById(id));
+            return mapper.MapAccount(repository.GetById(id));
         }
 
-        public void Create(AccountDTO account)
+        public int Create(AccountDTO account)
         {
             var validationResult = validator.Validate(account);
             if (validationResult.IsValid)
-                repository.Create(mapper.Map<Account>(account));
+                return repository.Create(mapper.MapAccount(account));
             else
                 throw new ValidationException(validationResult.Errors);
         }
@@ -49,7 +52,7 @@ namespace GoodsAPI.BLL.Services
                 throw new ValidationException(validationResult.Errors);
             try
             {
-                repository.Update(id, mapper.Map<Account>(account));
+                repository.Update(id, mapper.MapAccount(account));
             }
             catch (ArgumentNullException)
             {
@@ -101,7 +104,7 @@ namespace GoodsAPI.BLL.Services
 
         public void Delete(AccountDTO account)
         {
-            repository.Delete(mapper.Map<Account>(account));
+            repository.Delete(mapper.MapAccount(account));
         }
 
         public void DeleteById(int id)

@@ -1,5 +1,4 @@
-﻿using GoodsAPI.DAL.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GoodsAPI.Shared.DTO
 {

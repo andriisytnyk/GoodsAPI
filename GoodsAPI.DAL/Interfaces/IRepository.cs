@@ -11,7 +11,7 @@ namespace GoodsAPI.DAL.Interfaces
 
         TEntity GetById(int id);
 
-        void Create(TEntity entity);
+        int Create(TEntity entity);
 
         void Update(int id, TEntity entity);
 

@@ -11,7 +11,7 @@ namespace GoodsAPI.BLL.Interfaces
 
         ImportanceDTO GetById(int id);
 
-        void Create(ImportanceDTO importance);
+        int Create(ImportanceDTO importance);
 
         void Update(int id, ImportanceDTO importance);
 

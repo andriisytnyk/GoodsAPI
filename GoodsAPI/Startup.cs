@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿//using AutoMapper;
 using FluentValidation;
 using GoodsAPI.BLL.Interfaces;
 using GoodsAPI.BLL.Mapping;
@@ -54,8 +54,10 @@ namespace GoodsAPI
             services.AddScoped<ImportanceRepository>();
             services.AddScoped<UserRepository>();
 
-            var mapper = Mapping.ConfigureMapping().CreateMapper();
-            services.AddScoped(m => mapper);
+            //var mapper = Mapping.ConfigureMapping().CreateMapper();
+            //services.AddScoped(m => mapper);
+
+            services.AddTransient<IMapper, Mapping>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
