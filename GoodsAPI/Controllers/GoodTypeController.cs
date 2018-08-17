@@ -53,6 +53,17 @@ namespace GoodsAPI.Controllers
         {
             try
             {
+                if (goodType.Name == null)
+                {
+                    throw new NotFoundException();
+                }
+                foreach (var item in service.GetAll())
+                {
+                    if (item.Name == goodType.Name)
+                    {
+                        return Ok(item.Id);
+                    }
+                }
                 return Ok(service.Create(goodType));
             }
             catch (ValidationException e)

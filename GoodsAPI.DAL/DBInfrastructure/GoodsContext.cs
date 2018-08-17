@@ -15,8 +15,6 @@ namespace GoodsAPI.DAL.DBInfrastructure
         public DbSet<GoodType> GoodTypes { get; set; }
         public DbSet<User> Users { get; set; }
 
-        //private readonly ConnectionStringService connectionStringService;
-
         public GoodsContext(DbContextOptions<GoodsContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -24,7 +22,7 @@ namespace GoodsAPI.DAL.DBInfrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>().HasIndex(u => u.Login).IsUnique(true);
         }
 
         public DbSet<TEntity> SetOf<TEntity>() where TEntity : Entity
