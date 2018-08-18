@@ -22,7 +22,19 @@ namespace GoodsAPI.DAL.DBInfrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasIndex(u => u.Login).IsUnique(true);
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Login).IsUnique(true);
+
+            modelBuilder.Entity<UserGoodType>()
+                .HasKey(ggt => new { ggt.UserID, ggt.GoodTypeID });
+            modelBuilder.Entity<UserGoodType>()
+                .HasOne(ggt => ggt.User)
+                .WithMany(g => g.UserGoodTypes)
+                .HasForeignKey(ggt => ggt.UserID);
+            modelBuilder.Entity<UserGoodType>()
+                .HasOne(ggt => ggt.GoodType)
+                .WithMany(gt => gt.UserGoodTypes)
+                .HasForeignKey(ggt => ggt.GoodTypeID);
         }
 
         public DbSet<TEntity> SetOf<TEntity>() where TEntity : Entity
@@ -48,6 +60,7 @@ namespace GoodsAPI.DAL.DBInfrastructure
             }
             else if (GoodTypes is IEnumerable<TEntity>)
             {
+                Users.Load();
                 return GoodTypes as DbSet<TEntity>;
             }
             else if (Users is IEnumerable<TEntity>)

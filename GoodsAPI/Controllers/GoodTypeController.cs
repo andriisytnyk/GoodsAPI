@@ -64,6 +64,7 @@ namespace GoodsAPI.Controllers
                         return Ok(item.Id);
                     }
                 }
+                var a = HttpContext.Request.Headers["user"];
                 return Ok(service.Create(goodType));
             }
             catch (ValidationException e)

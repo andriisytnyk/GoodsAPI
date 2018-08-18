@@ -161,12 +161,12 @@ namespace GoodsAPI.BLL.Mapping
                 foreach (var item in value.AllGoods)
                     listGoods.Add(MapGood(item));
             }
-            var listGoodTypes = new List<GoodTypeDTO>();
-            if (value.UserGoodTypes != null)
-            {
-                foreach (var item in value.UserGoodTypes)
-                    listGoodTypes.Add(MapGoodType(item));
-            }
+            //var listGoodTypes = new List<GoodTypeDTO>();
+            //if (value.GoodTypes != null)
+            //{
+            //    foreach (var item in value.GoodTypes)
+            //        listGoodTypes.Add(MapGoodType(item));
+            //}
             return new UserDTO
             {
                 Id = value.Id,
@@ -174,7 +174,7 @@ namespace GoodsAPI.BLL.Mapping
                 Password = value.Password,
                 UserBill = MapBill(value.UserBill),
                 AllGoods = listGoods,
-                UserGoodTypes = listGoodTypes,
+                //UserGoodTypes = listGoodTypes,
             };
         }
 
@@ -199,9 +199,9 @@ namespace GoodsAPI.BLL.Mapping
             }
             var listGoodTypes = goodTypeRepo.GetAll();
             var listUserGoodTypes = new List<GoodType>();
-            if (value.UserGoodTypes != null)
+            if (value.GoodTypes != null)
             {
-                foreach (var item in value.UserGoodTypes)
+                foreach (var item in value.GoodTypes)
                 {
                     foreach (var goodType in listGoodTypes)
                     {
@@ -221,7 +221,7 @@ namespace GoodsAPI.BLL.Mapping
                 Password = value.Password,
                 UserBill = MapBill(value.UserBill),
                 AllGoods = listUserGoods,
-                UserGoodTypes = listUserGoodTypes
+                //GoodTypes = listUserGoodTypes
             };
         }
     }

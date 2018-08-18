@@ -12,18 +12,16 @@ namespace GoodsAPI.BLL.Services
     public class UserService : IUserService
     {
         private readonly UserRepository repository;
-        private readonly IBillService billService;
         private readonly IMapper mapper;
         private readonly AbstractValidator<UserDTO> userValidator;
         private readonly AbstractValidator<GoodDTO> goodValidator;
         private readonly AbstractValidator<BillDTO> billValidator;
         private readonly AbstractValidator<GoodTypeDTO> goodTypeValidator;
 
-        public UserService(UserRepository userRepository, IBillService billService, IMapper mapper, AbstractValidator<UserDTO> userValidator,
+        public UserService(UserRepository userRepository, IMapper mapper, AbstractValidator<UserDTO> userValidator,
             AbstractValidator<GoodDTO> goodValidator, AbstractValidator<BillDTO> billValidator, AbstractValidator<GoodTypeDTO> goodTypeValidator)
         {
             this.repository = userRepository;
-            this.billService = billService;
             this.mapper = mapper;
             this.userValidator = userValidator;
             this.goodValidator = goodValidator;

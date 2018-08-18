@@ -19,8 +19,6 @@ namespace GoodsAPI.DAL.Repositories
             temp.Password = entity.Password;
             temp.UserBill = entity.UserBill;
             temp.AllGoods = entity.AllGoods;
-            //temp.UniqueGoods = entity.UniqueGoods;
-            temp.UserGoodTypes = entity.UserGoodTypes;
             goodsContext.Users.Update(temp);
             base.Update(id, temp);
         }
@@ -86,47 +84,13 @@ namespace GoodsAPI.DAL.Repositories
         
         #endregion
 
-        //#region UpdateUniqueGoods
-        
-        ////Update user's list of unique goods by replacing with another list
-        //public void UpdateUniqueGoods(int id, List<Good> uniqueGoods)
-        //{
-        //    var temp = GetById(id);
-        //    temp.UniqueGoods = uniqueGoods;
-        //    goodsContext.Users.Update(temp);
-        //    base.Update(id, temp);
-        //}
-
-        ////Update user's list of unique goods by adding new good
-        //public void UpdateUniqueGoodsByAddingGood(int id, Good good)
-        //{
-        //    var temp = GetById(id);
-        //    temp.UniqueGoods.Add(good);
-        //    goodsContext.Users.Update(temp);
-        //    base.Update(id, temp);
-        //}
-
-        ////Update user's list of unique goods by adding new list of goods
-        //public void UpdateUniqueGoodsByAddingGoods(int id, List<Good> goods)
-        //{
-        //    var temp = GetById(id);
-        //    foreach (var item in goods)
-        //    {
-        //        temp.AllGoods.Add(item);
-        //    }
-        //    goodsContext.Users.Update(temp);
-        //    base.Update(id, temp);
-        //}
-        
-        //#endregion
-
         #region UpdateUserGoodTypes
         
         //Update user's list of goodTypes by replacing with another list
         public void UpdateUserGoodTypes(int id, List<GoodType> userGoodTypes)
         {
             var temp = GetById(id);
-            temp.UserGoodTypes = userGoodTypes;
+            //temp.GoodTypes = userGoodTypes;
             goodsContext.Users.Update(temp);
             base.Update(id, temp);
         }
@@ -135,7 +99,7 @@ namespace GoodsAPI.DAL.Repositories
         public void UpdateUserGoodTypesByAddingType(int id, GoodType goodType)
         {
             var temp = GetById(id);
-            temp.UserGoodTypes.Add(goodType);
+            //temp.GoodTypes.Add(goodType);
             goodsContext.Users.Update(temp);
             base.Update(id, temp);
         }
@@ -144,10 +108,10 @@ namespace GoodsAPI.DAL.Repositories
         public void UpdateUserGoodTypesByAddingTypes(int id, List<GoodType> goodTypes)
         {
             var temp = GetById(id);
-            foreach (var item in goodTypes)
-            {
-                temp.UserGoodTypes.Add(item);
-            }
+            //foreach (var item in goodTypes)
+            //{
+            //    temp.GoodTypes.Add(item);
+            //}
             goodsContext.Users.Update(temp);
             base.Update(id, temp);
         }

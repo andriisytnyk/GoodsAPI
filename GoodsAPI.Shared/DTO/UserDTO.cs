@@ -10,6 +10,6 @@ namespace GoodsAPI.Shared.DTO
         public string Password { get; set; }
         public BillDTO UserBill { get; set; }
         public List<GoodDTO> AllGoods { get; set; }
-        public List<GoodTypeDTO> UserGoodTypes { get; set; }
+        public List<GoodTypeDTO> GoodTypes { get; set; }
     }
 }

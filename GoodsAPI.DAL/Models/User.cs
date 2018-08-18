@@ -9,6 +9,6 @@ namespace GoodsAPI.DAL.Models
         public string Password { get; set; }
         public Bill UserBill { get; set; }
         public List<Good> AllGoods { get; set; }
-        public List<GoodType> UserGoodTypes { get; set; }
+        public List<UserGoodType> UserGoodTypes { get; set; }
     }
 }
