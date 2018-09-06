@@ -62,7 +62,7 @@ namespace GoodsAPI.BLL.Services
             {
                 throw;
             }
-        }
+        } 
 
         public void UpdateAccountByChangingName(int id, string name)
         {
