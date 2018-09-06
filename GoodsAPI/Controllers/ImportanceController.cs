@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using GoodsAPI.BLL.Interfaces;
+using GoodsAPI.DAL.Models;
 using GoodsAPI.Shared.DTO;
 using GoodsAPI.Shared.Exceptions;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,14 @@ namespace GoodsAPI.Controllers
     public class ImportanceController : ControllerBase
     {
         readonly IImportanceService service;
+        readonly IMapper mapper;
+        readonly IUserService userService;
 
-        public ImportanceController(IImportanceService importanceService)
+        public ImportanceController(IImportanceService importanceService, IMapper mapper, IUserService userService)
         {
             service = importanceService;
+            this.mapper = mapper;
+            this.userService = userService;
         }
 
         // GET: v1/api/importance
@@ -64,7 +69,19 @@ namespace GoodsAPI.Controllers
                         return Ok(item.Id);
                     }
                 }
-                return Ok(service.Create(importance));
+                importance.Id = service.Create(importance);
+                var userID = Convert.ToInt32(HttpContext.Request.Headers["user"]);
+                var user = userService.GetById(userID);
+                var ui = new UserImportance()
+                {
+                    UserID = userID,
+                    User = mapper.MapUser(user),
+                    ImportanceID = importance.Id,
+                    Importance = mapper.MapImportance(importance)
+                };
+                importance.UserImportances.Add(ui);
+                service.Update(importance.Id, importance);               
+                return Ok(importance.Id);
             }
             catch (ValidationException e)
             {

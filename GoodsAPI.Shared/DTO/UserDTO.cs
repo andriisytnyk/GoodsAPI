@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GoodsAPI.DAL.Models;
+using System.Collections.Generic;
 
 namespace GoodsAPI.Shared.DTO
 {
@@ -11,5 +12,13 @@ namespace GoodsAPI.Shared.DTO
         public BillDTO UserBill { get; set; }
         public List<GoodDTO> AllGoods { get; set; }
         public List<GoodTypeDTO> GoodTypes { get; set; }
+        public List<UserImportance> UserImportances { get; set; }
+
+        public UserDTO()
+        {
+            AllGoods = new List<GoodDTO>();
+            GoodTypes = new List<GoodTypeDTO>();
+            UserImportances = new List<UserImportance>();
+        }
     }
 }

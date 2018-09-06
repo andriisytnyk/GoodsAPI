@@ -18,6 +18,9 @@ namespace GoodsAPI.DAL.Repositories
             temp.Sum = entity.Sum;
             goodsContext.Accounts.Update(temp);
             base.Update(id, temp);
+            //entity.Id = id;
+            //goodsContext.Accounts.Update(entity);
+            //base.Update(id, entity);
         }
 
         //Update account's name

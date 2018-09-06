@@ -140,7 +140,8 @@ namespace GoodsAPI.BLL.Mapping
             return new ImportanceDTO
             {
                 Id = value.Id,
-                Name = value.Name
+                Name = value.Name,
+                UserImportances = value.UserImportances
             };
         }
 
@@ -149,7 +150,8 @@ namespace GoodsAPI.BLL.Mapping
             return new Importance
             {
                 Id = value.Id,
-                Name = value.Name
+                Name = value.Name,
+                UserImportances = value.UserImportances
             };
         }
 
@@ -174,7 +176,8 @@ namespace GoodsAPI.BLL.Mapping
                 Password = value.Password,
                 UserBill = MapBill(value.UserBill),
                 AllGoods = listGoods,
-                //UserGoodTypes = listGoodTypes,
+                //UserGoodTypes = listGoodTypes
+                UserImportances = value.UserImportances
             };
         }
 
@@ -222,6 +225,7 @@ namespace GoodsAPI.BLL.Mapping
                 UserBill = MapBill(value.UserBill),
                 AllGoods = listUserGoods,
                 //GoodTypes = listUserGoodTypes
+                UserImportances = value.UserImportances
             };
         }
     }

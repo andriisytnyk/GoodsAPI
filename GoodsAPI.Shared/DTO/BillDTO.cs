@@ -8,5 +8,10 @@ namespace GoodsAPI.Shared.DTO
         public int Id { get; set; }
         public decimal Sum { get; set; }
         public List<AccountDTO> Accounts { get; set; }
+
+        public BillDTO()
+        {
+            Accounts = new List<AccountDTO>();
+        }
     }
 }

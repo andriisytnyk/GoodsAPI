@@ -30,7 +30,7 @@ namespace GoodsAPI.DAL.Repositories
 
         public virtual void DeleteById(int id)
         {
-            goodsContext.SetOf<TEntity>().Remove(goodsContext.SetOf<TEntity>().Where(x => x.Id == id).FirstOrDefault());
+            goodsContext.SetOf<TEntity>().Remove(goodsContext.SetOf<TEntity>().Find(id));
             goodsContext.SaveChanges();
         }
 
@@ -41,7 +41,7 @@ namespace GoodsAPI.DAL.Repositories
 
         public virtual TEntity GetById(int id)
         {
-            return goodsContext.SetOf<TEntity>().Where(x => x.Id == id).FirstOrDefault();
+            return goodsContext.SetOf<TEntity>().Find(id);
         }
 
         public virtual void Update(int id, TEntity entity)

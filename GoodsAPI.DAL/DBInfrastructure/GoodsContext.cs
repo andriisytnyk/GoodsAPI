@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GoodsAPI.DAL.DBInfrastructure
 {
@@ -17,7 +16,7 @@ namespace GoodsAPI.DAL.DBInfrastructure
 
         public GoodsContext(DbContextOptions<GoodsContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,16 +24,29 @@ namespace GoodsAPI.DAL.DBInfrastructure
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Login).IsUnique(true);
 
+            modelBuilder.Entity<UserImportance>()
+                .HasKey(ui => new { ui.UserID, ui.ImportanceID });
+            modelBuilder.Entity<UserImportance>()
+                .HasOne(ui => ui.User)
+                .WithMany(u => u.UserImportances)
+                .HasForeignKey(ui => ui.UserID);
+            modelBuilder.Entity<UserImportance>()
+                .HasOne(ui => ui.Importance)
+                .WithMany(gt => gt.UserImportances)
+                .HasForeignKey(ui => ui.ImportanceID);
+
             modelBuilder.Entity<UserGoodType>()
-                .HasKey(ggt => new { ggt.UserID, ggt.GoodTypeID });
+                .HasKey(ugt => new { ugt.UserID, ugt.GoodTypeID });
             modelBuilder.Entity<UserGoodType>()
-                .HasOne(ggt => ggt.User)
-                .WithMany(g => g.UserGoodTypes)
-                .HasForeignKey(ggt => ggt.UserID);
+                .HasOne(ugt => ugt.User)
+                .WithMany(u => u.UserGoodTypes)
+                .HasForeignKey(ugt => ugt.UserID);
             modelBuilder.Entity<UserGoodType>()
-                .HasOne(ggt => ggt.GoodType)
+                .HasOne(ugt => ugt.GoodType)
                 .WithMany(gt => gt.UserGoodTypes)
-                .HasForeignKey(ggt => ggt.GoodTypeID);
+                .HasForeignKey(ugt => ugt.GoodTypeID);
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<TEntity> SetOf<TEntity>() where TEntity : Entity
@@ -60,14 +72,12 @@ namespace GoodsAPI.DAL.DBInfrastructure
             }
             else if (GoodTypes is IEnumerable<TEntity>)
             {
-                Users.Load();
                 return GoodTypes as DbSet<TEntity>;
             }
             else if (Users is IEnumerable<TEntity>)
             {
                 Bills.Load();
                 Goods.Load();
-                GoodTypes.Load();
                 return Users as DbSet<TEntity>;
             }
             else

@@ -15,6 +15,7 @@ namespace GoodsAPI.DAL.Repositories
         {
             var temp = GetById(id);
             temp.Name = entity.Name;
+            temp.UserImportances = entity.UserImportances;
             goodsContext.Importances.Update(temp);
             base.Update(id, temp);
         }

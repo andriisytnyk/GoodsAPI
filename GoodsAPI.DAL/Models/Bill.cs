@@ -7,5 +7,10 @@ namespace GoodsAPI.DAL.Models
     {
         public decimal Sum { get; set; }
         public List<Account> Accounts { get; set; }
+
+        public Bill()
+        {
+            Accounts = new List<Account>();
+        }
     }
 }

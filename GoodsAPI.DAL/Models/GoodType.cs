@@ -6,5 +6,10 @@ namespace GoodsAPI.DAL.Models
     {
         public string Name { get; set; }
         public List<UserGoodType> UserGoodTypes { get; set; }
+
+        public GoodType()
+        {
+            UserGoodTypes = new List<UserGoodType>();
+        }
     }
 }

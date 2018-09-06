@@ -19,6 +19,8 @@ namespace GoodsAPI.DAL.Repositories
             temp.Password = entity.Password;
             temp.UserBill = entity.UserBill;
             temp.AllGoods = entity.AllGoods;
+            temp.UserImportances = entity.UserImportances;
+            //temp.UserGoodTypes = entity.UserGoodTypes;
             goodsContext.Users.Update(temp);
             base.Update(id, temp);
         }
